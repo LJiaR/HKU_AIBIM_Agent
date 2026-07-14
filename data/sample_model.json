@@ -1,0 +1,29 @@
+{
+  "project_name": "HKU_Test_Building_A",
+  "elements": [
+    {
+      "id": "DOOR_001",
+      "type": "IfcDoor",
+      "name": "主办公室门",
+      "properties": { "ClearWidth": 1.0, "FireRating": "2H" }
+    },
+    {
+      "id": "DOOR_002",
+      "type": "IfcDoor",
+      "name": "储藏室窄门",
+      "properties": { "ClearWidth": 0.75, "FireRating": "1H" }
+    },
+    {
+      "id": "WALL_001",
+      "type": "IfcWall",
+      "name": "走廊主防火墙",
+      "properties": { "Thickness": 200, "FireRating": "2H" }
+    },
+    {
+      "id": "WALL_002",
+      "type": "IfcWall",
+      "name": "会议室隔断墙",
+      "properties": { "Thickness": 120, "FireRating": null }
+    }
+  ]
+}
