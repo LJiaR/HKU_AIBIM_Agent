@@ -1,0 +1,35 @@
+{
+  "project_name": "HKU_Innovation_Lab_Building_B",
+  "elements": [
+    {
+      "id": "DOOR_201",
+      "type": "IfcDoor",
+      "name": "一楼大堂双开玻璃主门",
+      "properties": { "ClearWidth": 1.8, "FireRating": "2H" }
+    },
+    {
+      "id": "DOOR_202",
+      "type": "IfcDoor",
+      "name": "服务器机房安全逃生门",
+      "properties": { "ClearWidth": 0.8, "FireRating": "2H" }
+    },
+    {
+      "id": "WALL_201",
+      "type": "IfcWall",
+      "name": "主走廊防烟分区承重墙",
+      "properties": { "Thickness": 250, "FireRating": "3H" }
+    },
+    {
+      "id": "WALL_202",
+      "type": "IfcWall",
+      "name": "AI计算中心实验室隔墙",
+      "properties": { "Thickness": 150, "FireRating": null }
+    },
+    {
+      "id": "DOOR_203",
+      "type": "IfcDoor",
+      "name": "地下室楼梯缓冲小门",
+      "properties": { "ClearWidth": 0.7, "FireRating": null }
+    }
+  ]
+}
