@@ -98,22 +98,40 @@ with tab1:
         # 运行底层规则引擎
         base_results = run_compliance_check(model_path_to_check)
 
-        # --- 【高阶联动】动态阈值二次拦截逻辑 ---
-        # 即使底流 checker.py 认为 ≥0.9m 合格，只要滑块调高到 1.2m(例如医院模式)，这里直接强行捕捉为违规！
-        results = list(base_results)
-        existing_ids = [r.get("构件ID") for r in results]
-
+        # --- 【高阶联动与自适应清洗】动态阈值实时重构规则 ---
+        results = []
         for el in raw_data.get("elements", []):
+            el_id = el.get("id")
+            el_name = el.get("name")
+            props = el.get("properties", {})
+
+            # 1. 动态判断门宽 (完全以侧边栏滑块 custom_min_width 为唯一真理红线！)
             if el.get("type") == "IfcDoor":
-                width = el.get("properties", {}).get("ClearWidth", 0)
-                if width < custom_min_width and el.get("id") not in existing_ids:
+                width = props.get("ClearWidth", 0)
+                if width < custom_min_width:
                     results.append({
-                        "构件ID": el.get("id"),
-                        "构件名称": el.get("name"),
-                        "检查类型": "动态阈值违规 (尺寸)",
-                        "详细说明": f"疏散门净宽 {width}m 未达到 {building_type} 最低合规标准 ({custom_min_width}m)",
+                        "构件ID": el_id,
+                        "构件名称": el_name,
+                        "检查类型": "几何尺寸违规",
+                        "当前状态": f"净宽 {width}m",
+                        "合规要求": f"≥ {custom_min_width}m ({building_type})",  # <--- 实时跟随滑块变化的文字！
+                        "风险等级": "🔴 严重违规" if width < custom_min_width - 0.2 else "🟠 警告/需整改",
+                        "详细说明": f"疏散门净宽 {width}m 未达到当前选定红线 ({custom_min_width}m)",
                         "规范依据": f"{code_region} 专项管控条款"
                     })
+
+            # 2. 保持防火属性与属性缺失检查的严谨性
+            if "FireRating" not in props or props.get("FireRating") is None or props.get("FireRating") == "null":
+                results.append({
+                    "构件ID": el_id,
+                    "构件名称": el_name,
+                    "检查类型": "BIM属性缺失",
+                    "当前状态": "FireRating 属性为 null",
+                    "合规要求": "需填入有效耐火等级 (如 1H/2H)",
+                    "风险等级": "🟠 警告/待补全",
+                    "详细说明": "构件耐火极限属性未定义，无法验证合规性。",
+                    "规范依据": f"{code_region} 防火分则"
+                })
 
         st.session_state["last_results"] = results
         issues_count = len(results)
