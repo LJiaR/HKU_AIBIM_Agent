@@ -68,19 +68,20 @@ with st.sidebar:
     st.markdown(
         "1. **多法务兼容**：港深国际三地防火规范切换\n2. **动态规则引擎**：实时响应空间尺度阈值滑动\n3. **商业 ROI 评估**：自动量化 AI 审查降本增效倍率\n4. **多智能体管线**：可视化 Multi-Agent 协同思考\n5. **尺度差距图表**：构件实际尺寸 vs 规范红线对比\n6. **极客工业自愈**：内存复写闭环验证与零污染弹窗")
 
-# 3. 数据加载与路径判断
-model_path_to_check = None
-
+# 3. 数据加载与记忆引擎 (首次进网页不加载，只要点击一次后，拖动滑块直接实时联动！)
 if run_sample_btn:
-    model_path_to_check = "data/sample_model.json"
+    st.session_state["model_path"] = "data/sample_model.json"
     st.session_state["current_mode"] = "示例模型 (sample_model.json)"
 elif uploaded_file is not None:
     os.makedirs("data", exist_ok=True)
     temp_path = "data/temp_uploaded_model.json"
     with open(temp_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
-    model_path_to_check = temp_path
+    st.session_state["model_path"] = temp_path
     st.session_state["current_mode"] = f"自定义文件: {uploaded_file.name}"
+
+# 从“云端记忆”里读取模型路径（没点按钮之前是 None，点过后永久记忆，滑块随便拉都无缝响应）
+model_path_to_check = st.session_state.get("model_path", None)
 
 # 4. 主界面：双标签页布局
 tab1, tab2 = st.tabs(["📊 合规审查、ROI 提效分析与自愈补丁", "💬 AI 建筑法务专家实时咨询 (Chat Assistant)"])
