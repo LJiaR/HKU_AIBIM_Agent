@@ -10,7 +10,7 @@
 * 🌐 **公网 Live Demo 体验地址（开箱即用，免本地环境）：**  
   👉 [https://hkuaibimagent-ljiar.streamlit.app](https://hkuaibimagent-ljiar.streamlit.app)
 * 🎬 **2.5 分钟系统架构与核心亮点演示视频：**  
-  👉 **百度网盘演示视频：** [点击此处观看 2.5 分钟项目汇报 (提取码: gssf)](https://pan.baidu.com/s/1aSPfmWMRo5Ybrx2z5WvIDQ?pwd=gssf)
+  👉 **百度网盘演示视频：** [点击此处观看 2.5 分钟项目汇报 (提取码: gssf)](https://pan.baidu.com/s/1aSPfmWMRo5Ybrx2z5WvIDO?pwd=gssf)
 
 ---
 
